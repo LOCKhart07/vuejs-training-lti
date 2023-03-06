@@ -25,16 +25,6 @@ const isDark = useDark({
 
 const toggleDark = useToggle(isDark);
 
-const i = ref(0)
-const o = ref(isDark.constructor.name)
-const currrentTheme = computed(() => {
-  console.log(typeof (isDark))
-  if (isDark) {
-    i.value++
-  }
-  return isDark ? "Dark" : "Light"
-})
-
 </script>
 
 <template>
