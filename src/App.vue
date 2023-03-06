@@ -15,10 +15,11 @@ function pushTo(route) {
 </script>
 
 <template>
-  <div v-show="false">
+  <div v-show="true">
     <div>
       <RouterLink :to="{ name: 'Home' }">Home</RouterLink> |
-      <RouterLink :to="{ name: 'Users' }">Users</RouterLink>
+      <RouterLink :to="{ name: 'Users' }">Users</RouterLink> |
+      <RouterLink :to="{ name: 'Employees' }">Employees</RouterLink>
     </div>
     <p>
       <button @click="stepTo(-1)">Go back 1 step</button>
@@ -32,7 +33,7 @@ function pushTo(route) {
   <div v-show="false">
     <Todo></Todo>
   </div>
-  <div>
+  <div v-show="false">
     <Employees></Employees>
   </div>
 </template>

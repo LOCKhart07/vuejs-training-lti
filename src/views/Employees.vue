@@ -35,7 +35,13 @@ const razeImgUrl = ref("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc
     <ul v-if="layout == 'grid'" class="grid">
         <!-- A view with big photos and no text -->
         <li v-for="employee in employees">
-            <a v-bind:href="employee.avatar" target="_blank"><img v-bind:src="razeImgUrl" /></a>
+            <RouterLink :to="{
+                name: 'EmployeeSingle',
+                params: {
+                    id: employee.id
+                }
+            }"><img v-bind:src="razeImgUrl" /></RouterLink>
+            <!-- <a v-bind:href="employee.avatar" target="_blank"></a> -->
         </li>
     </ul>
 

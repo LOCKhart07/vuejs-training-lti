@@ -15,6 +15,16 @@ const routes = [{
     name: 'UserSingle',
     props: true,
     component: () => import('../views/UserSingleView.vue')
+}, {
+    path: '/employees',
+    name: 'Employees',
+    component: () => import('../views/Employees.vue')
+},
+{
+    path: '/employees/:id',
+    name: 'EmployeeSingle',
+    props: true,
+    component: () => import('../views/EmployeeSingle.vue')
 }]
 
 export const router = createRouter({
