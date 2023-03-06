@@ -1,13 +1,21 @@
 
 <script setup>
 import axios from 'axios'
-import { ref, onMounted } from 'vue'
-const layout = ref("grid")
+import { ref, reactive, onMounted } from 'vue'
+const layout = ref("list")
 const employees = ref({})
-
+// const newFirstName = ref()
+// const newLastName = ref()
+// const newEmail = ref()
+const newUser = reactive({ firstName: "temp", lastName: "templ", email: "tempe" })
 
 onMounted(() => {
     console.log("Employees present maam")
+    getEmployees()
+})
+
+
+function getEmployees() {
     axios.get('http://localhost:8080/employees')
         .then(response => {
             employees.value = response.data;
@@ -15,13 +23,38 @@ onMounted(() => {
         .catch(error => {
             console.error(error)
         })
-})
+}
 
 const razeImgUrl = ref("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcLfyZnoEtSYmnFJaLVr_H70uL2sv7u0yAMA&usqp=CAU")
+
+function createEmployee() {
+    axios.post('http://localhost:8080/create-employee', newUser)
+        .then(response => {
+
+        })
+        .catch(error => {
+            console.error(error)
+        })
+    console.log("sent broo")
+    getEmployees()
+}
+
 
 </script>
 <template>
     <h1>EMPLOYEES</h1>
+    <div>
+        <h2>Add employee</h2>
+
+        <label>First name: </label>
+        <input v-model="newUser.firstName"><br>
+        <label>Last name: </label>
+        <input v-model="newUser.lastName"><br>
+        <label>Email: </label>
+        <input v-model="newUser.email"><br>
+        <button @click="createEmployee">Add Employees</button>
+
+    </div>
     <!-- <div v-for="employee in employees">{{ employee.id }}. {{ employee.firstName }} {{ employee.lastName }}, Email: {{ employee.email }}</div> -->
     <div class="bar">
         <!-- These two buttons switch the layout variable, which causes the correct UL to be shown. -->
@@ -48,9 +81,16 @@ const razeImgUrl = ref("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc
     <ul v-if="layout == 'list'" class="list">
         <!-- A compact view smaller photos and titles -->
         <li v-for="employee in employees">
-            <a v-bind:href="employee.avatar" target="_blank"><img v-bind:src="razeImgUrl" /></a>
-            <p>{{ employee.firstName }} {{ employee.lastName }}</p>
-            <p>{{ employee.email }}</p>
+            <RouterLink :to="{
+                name: 'EmployeeSingle',
+                params: {
+                    id: employee.id
+                }
+            }">
+                <img v-bind:src="razeImgUrl" />
+                <p>{{ employee.firstName }} {{ employee.lastName }}</p>
+                <p>{{ employee.email }}</p>
+            </RouterLink>
         </li>
     </ul>
 </template>
