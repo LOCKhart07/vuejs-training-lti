@@ -16,7 +16,7 @@ onMounted(() => {
 
 
 function getEmployees() {
-    axios.get('http://localhost:8080/employees')
+    axios.get('http://localhost:8080/api/employees')
         .then(response => {
             employees.value = response.data;
         })
@@ -28,15 +28,14 @@ function getEmployees() {
 const razeImgUrl = ref("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcLfyZnoEtSYmnFJaLVr_H70uL2sv7u0yAMA&usqp=CAU")
 
 function createEmployee() {
-    axios.post('http://localhost:8080/create-employee', newUser)
+    axios.post('http://localhost:8080/api/create-employee', newUser)
         .then(response => {
-
+            getEmployees()
         })
         .catch(error => {
             console.error(error)
         })
     console.log("sent broo")
-    getEmployees()
 }
 
 

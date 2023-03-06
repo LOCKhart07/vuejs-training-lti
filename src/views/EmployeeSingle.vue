@@ -8,7 +8,7 @@ const props = defineProps({ id: String })
 const employee = ref({})
 onMounted(() => {
     console.log("Single employee present maam")
-    axios.get(`http://localhost:8080/employees/${props.id}`)
+    axios.get(`http://localhost:8080/api/employees/${props.id}`)
         .then(response => {
             employee.value = response.data;
         })
