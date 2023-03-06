@@ -3,6 +3,9 @@ import { useRouter } from 'vue-router';
 import Employees from './views/Employees.vue';
 import TimePass from './views/TimePass.vue'
 import Todo from './views/Todo.vue'
+import { useDark, useToggle } from "@vueuse/core"
+import { computed } from '@vue/reactivity';
+import { ref } from 'vue';
 
 const router = useRouter()
 
@@ -12,6 +15,26 @@ function stepTo(step) {
 function pushTo(route) {
   router.push(route)
 }
+
+const isDark = useDark({
+  selector: "body", //element to add attribute to
+  attribute: "theme", // attribute name
+  valueDark: "custom-dark", // attribute value for dark mode
+  valueLight: "custom-light", // attribute value for light mode
+});
+
+const toggleDark = useToggle(isDark);
+
+const i = ref(0)
+const o = ref(isDark.constructor.name)
+const currrentTheme = computed(() => {
+  console.log(typeof (isDark))
+  if (isDark) {
+    i.value++
+  }
+  return isDark ? "Dark" : "Light"
+})
+
 </script>
 
 <template>
@@ -20,6 +43,10 @@ function pushTo(route) {
       <RouterLink :to="{ name: 'Home' }">Home</RouterLink> |
       <RouterLink :to="{ name: 'Users' }">Users</RouterLink> |
       <RouterLink :to="{ name: 'Employees' }">Employees</RouterLink>
+      <div>
+        <button v-if="isDark" @click="toggleDark()">Light Mode</button>
+        <button v-if="!isDark" @click="toggleDark()">Dark Mode</button>
+      </div>
     </div>
     <p>
       <button @click="stepTo(-1)">Go back 1 step</button>
@@ -33,7 +60,16 @@ function pushTo(route) {
   <div v-show="false">
     <Todo></Todo>
   </div>
-  <div v-show="false">
-    <Employees></Employees>
-  </div>
 </template>
+
+<style>
+[theme="custom-dark"] {
+  background: #16171d;
+  color: #fff;
+}
+
+[theme="custom-light"] {
+  background: #fff;
+  color: #16171d;
+}
+</style>
